@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import { Layout } from "@/components/Layout.tsx";
 import { html } from "hono/html";
+import { Layout } from "../components/Layout";
 
 export const notFoundRouter = new Hono();
 
@@ -58,5 +58,7 @@ notFoundRouter.notFound((c) => {
       </div>
   `;
 
-  return c.html(Layout({ title: "404 Not Found - Open Congress API", children: content }));
+  return c.html(
+    Layout({ title: "404 Not Found - Open Congress API", children: content }),
+  );
 });

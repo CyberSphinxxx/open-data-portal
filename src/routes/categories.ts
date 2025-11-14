@@ -1,16 +1,17 @@
-import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
-import { query } from '../lib/db';
-import { CategoryListItemSchema, ErrorSchema } from '../lib/schemas';
-import type { Bindings, CategoryListItem } from '../lib/types';
+/** biome-ignore-all lint/suspicious/noExplicitAny: any is acceptable in Hono routes */
+import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
+import { query } from "../lib/db";
+import { CategoryListItemSchema, ErrorSchema } from "../lib/schemas";
+import type { Bindings, CategoryListItem } from "../lib/types";
 
 const app = new OpenAPIHono<{ Bindings: Bindings }>();
 
 const listCategoriesRoute = createRoute({
-  method: 'get',
-  path: '/',
-  tags: ['Categories'],
-  summary: 'List all categories',
-  description: 'Get a list of all categories',
+  method: "get",
+  path: "/",
+  tags: ["Categories"],
+  summary: "List all categories",
+  description: "Get a list of all categories",
   request: {
     query: z.object({
       search: z.string().optional(),
@@ -18,9 +19,9 @@ const listCategoriesRoute = createRoute({
   },
   responses: {
     200: {
-      description: 'Successful response',
+      description: "Successful response",
       content: {
-        'application/json': {
+        "application/json": {
           schema: z.object({
             success: z.boolean(),
             data: CategoryListItemSchema.array().optional(),
@@ -33,14 +34,14 @@ const listCategoriesRoute = createRoute({
 });
 
 app.openapi(listCategoriesRoute, async (c: any) => {
-  const { search } = c.req.valid('query');
+  const { search } = c.req.valid("query");
 
   try {
     const params: any[] = [];
-    let whereClause = '1=1';
+    let whereClause = "1=1";
 
     if (search) {
-      whereClause = 'c.name LIKE ?';
+      whereClause = "c.name LIKE ?";
       params.push(`%${search}%`);
     }
 
@@ -63,16 +64,16 @@ app.openapi(listCategoriesRoute, async (c: any) => {
       data: categories,
     });
   } catch (error) {
-    console.error('Error listing categories:', error);
+    console.error("Error listing categories:", error);
     return c.json(
       {
         success: false,
         error: {
-          code: 'INTERNAL_ERROR',
-          message: 'Failed to retrieve categories',
+          code: "INTERNAL_ERROR",
+          message: "Failed to retrieve categories",
         },
       },
-      500
+      500,
     );
   }
 });

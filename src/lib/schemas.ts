@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const PublisherSchema = z.object({
   id: z.number().int().positive(),
@@ -34,7 +34,10 @@ export const DatasetSchema = z.object({
   category_id: z.number().int().positive(),
   tags: z.string().nullable(),
   size_bytes: z.number().int().min(0),
-  latest_version_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable(),
+  latest_version_date: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/)
+    .nullable(),
 });
 
 export const DatasetListItemSchema = DatasetSchema.extend({
@@ -64,8 +67,11 @@ export const DatasetListQuerySchema = PaginationQuerySchema.extend({
   category_id: z.coerce.number().int().positive().optional(),
   publisher_id: z.coerce.number().int().positive().optional(),
   format: z.string().optional(),
-  sort: z.enum(['name', 'latest_version_date', 'size_bytes']).optional().default('latest_version_date'),
-  dir: z.enum(['asc', 'desc']).optional().default('desc'),
+  sort: z
+    .enum(["name", "latest_version_date", "size_bytes"])
+    .optional()
+    .default("latest_version_date"),
+  dir: z.enum(["asc", "desc"]).optional().default("desc"),
 });
 
 export const PublisherListQuerySchema = PaginationQuerySchema.extend({
@@ -101,7 +107,9 @@ export const ErrorResponseSchema = z.object({
 });
 
 // Generic API response wrapper
-export const createApiResponseSchema = <T extends z.ZodTypeAny>(dataSchema: T) =>
+export const createApiResponseSchema = <T extends z.ZodTypeAny>(
+  dataSchema: T,
+) =>
   z.object({
     success: z.boolean(),
     data: dataSchema.optional(),

@@ -1,15 +1,12 @@
-import { Hono } from 'hono';
-import { Layout } from '../components/Layout';
-import { LoadingSkeleton } from '../components/LoadingSkeleton';
-import { html } from 'hono/html';
+import { Hono } from "hono";
+import { html } from "hono/html";
+import { Layout } from "../components/Layout";
+import { LoadingSkeleton } from "../components/LoadingSkeleton";
 
 const app = new Hono();
 
-app.get('/', async (c) => {
-  const breadcrumbs = [
-    { label: 'Home', href: '/' },
-    { label: 'Datasets' },
-  ];
+app.get("/", async (c) => {
+  const breadcrumbs = [{ label: "Home", href: "/" }, { label: "Datasets" }];
 
   const content = html`
       <div class="container-custom pt-4 pb-8">
@@ -142,7 +139,7 @@ app.get('/', async (c) => {
           <!-- Datasets List -->
           <div id="datasets-container" class="space-y-4">
               <!-- Loading skeletons -->
-              ${LoadingSkeleton({ variant: 'dataset-card', count: 5 })}
+              ${LoadingSkeleton({ variant: "dataset-card", count: 5 })}
           </div>
 
           <!-- Bottom Pagination Controls -->
@@ -667,7 +664,13 @@ app.get('/', async (c) => {
       </script>
   `;
 
-  return c.html(Layout({ title: 'Browse Datasets - Open Data Portal', children: content, breadcrumbs }));
+  return c.html(
+    Layout({
+      title: "Browse Datasets - Open Data Portal",
+      children: content,
+      breadcrumbs,
+    }),
+  );
 });
 
 export default app;

@@ -1,7 +1,7 @@
-import { html } from 'hono/html';
+import { html } from "hono/html";
 
 export interface LoadingSkeletonProps {
-  variant: 'stat-card' | 'dataset-card' | 'generic' | 'resource-row';
+  variant: "stat-card" | "dataset-card" | "generic" | "resource-row";
   count?: number;
 }
 
@@ -11,9 +11,10 @@ export interface LoadingSkeletonProps {
 export function LoadingSkeleton({ variant, count = 1 }: LoadingSkeletonProps) {
   const skeletons = Array(count).fill(null);
 
-  if (variant === 'stat-card') {
+  if (variant === "stat-card") {
     return html`
-      ${skeletons.map(() => html`
+      ${skeletons.map(
+        () => html`
         <div class="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 animate-pulse">
           <div class="flex items-center justify-between">
             <div class="flex-1">
@@ -23,13 +24,15 @@ export function LoadingSkeleton({ variant, count = 1 }: LoadingSkeletonProps) {
             <div class="bg-neutral-200 p-3 rounded-lg w-14 h-14"></div>
           </div>
         </div>
-      `)}
+      `,
+      )}
     `;
   }
 
-  if (variant === 'dataset-card') {
+  if (variant === "dataset-card") {
     return html`
-      ${skeletons.map(() => html`
+      ${skeletons.map(
+        () => html`
         <div class="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 animate-pulse">
           <div class="h-6 bg-neutral-200 rounded w-3/4 mb-4"></div>
           <div class="space-y-2 mb-4">
@@ -45,13 +48,15 @@ export function LoadingSkeleton({ variant, count = 1 }: LoadingSkeletonProps) {
             <div class="h-4 bg-neutral-200 rounded w-24"></div>
           </div>
         </div>
-      `)}
+      `,
+      )}
     `;
   }
 
-  if (variant === 'resource-row') {
+  if (variant === "resource-row") {
     return html`
-      ${skeletons.map(() => html`
+      ${skeletons.map(
+        () => html`
         <tr class="animate-pulse">
           <td class="px-6 py-4">
             <div class="h-4 bg-neutral-200 rounded w-48"></div>
@@ -69,13 +74,15 @@ export function LoadingSkeleton({ variant, count = 1 }: LoadingSkeletonProps) {
             <div class="h-8 bg-neutral-200 rounded w-20"></div>
           </td>
         </tr>
-      `)}
+      `,
+      )}
     `;
   }
 
   // Generic variant
   return html`
-    ${skeletons.map(() => html`
+    ${skeletons.map(
+      () => html`
       <div class="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 animate-pulse">
         <div class="space-y-4">
           <div class="h-6 bg-neutral-200 rounded w-3/4"></div>
@@ -83,7 +90,8 @@ export function LoadingSkeleton({ variant, count = 1 }: LoadingSkeletonProps) {
           <div class="h-4 bg-neutral-200 rounded w-5/6"></div>
         </div>
       </div>
-    `)}
+    `,
+    )}
   `;
 }
 
@@ -91,11 +99,16 @@ export function LoadingSkeleton({ variant, count = 1 }: LoadingSkeletonProps) {
  * Client-side compatible function that returns HTML string
  * Used for dynamic rendering in browser JavaScript
  */
-LoadingSkeleton.toHTML = function({ variant, count = 1 }: LoadingSkeletonProps): string {
+LoadingSkeleton.toHTML = ({
+  variant,
+  count = 1,
+}: LoadingSkeletonProps): string => {
   const skeletons = Array(count).fill(null);
 
-  if (variant === 'stat-card') {
-    return skeletons.map(() => `
+  if (variant === "stat-card") {
+    return skeletons
+      .map(
+        () => `
       <div class="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 animate-pulse">
         <div class="flex items-center justify-between">
           <div class="flex-1">
@@ -105,11 +118,15 @@ LoadingSkeleton.toHTML = function({ variant, count = 1 }: LoadingSkeletonProps):
           <div class="bg-neutral-200 p-3 rounded-lg w-14 h-14"></div>
         </div>
       </div>
-    `).join('');
+    `,
+      )
+      .join("");
   }
 
-  if (variant === 'dataset-card') {
-    return skeletons.map(() => `
+  if (variant === "dataset-card") {
+    return skeletons
+      .map(
+        () => `
       <div class="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 animate-pulse">
         <div class="h-6 bg-neutral-200 rounded w-3/4 mb-4"></div>
         <div class="space-y-2 mb-4">
@@ -125,11 +142,15 @@ LoadingSkeleton.toHTML = function({ variant, count = 1 }: LoadingSkeletonProps):
           <div class="h-4 bg-neutral-200 rounded w-24"></div>
         </div>
       </div>
-    `).join('');
+    `,
+      )
+      .join("");
   }
 
-  if (variant === 'resource-row') {
-    return skeletons.map(() => `
+  if (variant === "resource-row") {
+    return skeletons
+      .map(
+        () => `
       <tr class="animate-pulse">
         <td class="px-6 py-4">
           <div class="h-4 bg-neutral-200 rounded w-48"></div>
@@ -147,11 +168,15 @@ LoadingSkeleton.toHTML = function({ variant, count = 1 }: LoadingSkeletonProps):
           <div class="h-8 bg-neutral-200 rounded w-20"></div>
         </td>
       </tr>
-    `).join('');
+    `,
+      )
+      .join("");
   }
 
   // Generic variant
-  return skeletons.map(() => `
+  return skeletons
+    .map(
+      () => `
     <div class="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 animate-pulse">
       <div class="space-y-4">
         <div class="h-6 bg-neutral-200 rounded w-3/4"></div>
@@ -159,5 +184,7 @@ LoadingSkeleton.toHTML = function({ variant, count = 1 }: LoadingSkeletonProps):
         <div class="h-4 bg-neutral-200 rounded w-5/6"></div>
       </div>
     </div>
-  `).join('');
+  `,
+    )
+    .join("");
 };

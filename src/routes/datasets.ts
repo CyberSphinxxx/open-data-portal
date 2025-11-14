@@ -1,36 +1,47 @@
-import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
-import { query, queryOne } from '../lib/db';
-import { DatasetListItemSchema, DatasetDetailSchema, DatasetListQuerySchema, createApiResponseSchema, PaginationInfoSchema, ErrorResponseSchema } from '../lib/schemas';
-import { calculatePagination } from '../lib/utils';
-import type { DatasetListItem, DatasetDetail } from '../lib/types';
+/** biome-ignore-all lint/suspicious/noExplicitAny: any is acceptable in Hono routes */
+import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
+import { query, queryOne } from "../lib/db";
+import {
+  createApiResponseSchema,
+  DatasetDetailSchema,
+  DatasetListItemSchema,
+  DatasetListQuerySchema,
+  ErrorResponseSchema,
+  PaginationInfoSchema,
+} from "../lib/schemas";
+import type { DatasetDetail, DatasetListItem } from "../lib/types";
+import { calculatePagination } from "../lib/utils";
 
 const app = new OpenAPIHono();
 
 // List datasets route
 const listDatasetsRoute = createRoute({
-  method: 'get',
-  path: '/',
-  tags: ['Datasets'],
-  summary: 'List all datasets',
-  description: 'Get a paginated list of datasets with optional filtering, search, and sorting',
+  method: "get",
+  path: "/",
+  tags: ["Datasets"],
+  summary: "List all datasets",
+  description:
+    "Get a paginated list of datasets with optional filtering, search, and sorting",
   request: {
     query: DatasetListQuerySchema,
   },
   responses: {
     200: {
-      description: 'Successful response',
+      description: "Successful response",
       content: {
-        'application/json': {
-          schema: createApiResponseSchema(DatasetListItemSchema.array()).extend({
-            pagination: PaginationInfoSchema,
-          }),
+        "application/json": {
+          schema: createApiResponseSchema(DatasetListItemSchema.array()).extend(
+            {
+              pagination: PaginationInfoSchema,
+            },
+          ),
         },
       },
     },
     400: {
-      description: 'Bad request',
+      description: "Bad request",
       content: {
-        'application/json': {
+        "application/json": {
           schema: ErrorResponseSchema,
         },
       },
@@ -39,39 +50,52 @@ const listDatasetsRoute = createRoute({
 });
 
 app.openapi(listDatasetsRoute, async (c: any) => {
-  const { search, category_id, publisher_id, format, sort, dir, limit, offset } = c.req.valid('query');
+  const {
+    search,
+    category_id,
+    publisher_id,
+    format,
+    sort,
+    dir,
+    limit,
+    offset,
+  } = c.req.valid("query");
 
   try {
     // Build WHERE conditions
-    const conditions: string[] = ['1=1'];
+    const conditions: string[] = ["1=1"];
     const params: any[] = [];
 
     // Search condition
     if (search) {
-      conditions.push('(d.name LIKE ? OR d.description LIKE ? OR d.tags LIKE ?)');
+      conditions.push(
+        "(d.name LIKE ? OR d.description LIKE ? OR d.tags LIKE ?)",
+      );
       const searchPattern = `%${search}%`;
       params.push(searchPattern, searchPattern, searchPattern);
     }
 
     // Category filter
     if (category_id) {
-      conditions.push('d.category_id = ?');
+      conditions.push("d.category_id = ?");
       params.push(category_id);
     }
 
     // Publisher filter
     if (publisher_id) {
-      conditions.push('d.publisher_id = ?');
+      conditions.push("d.publisher_id = ?");
       params.push(publisher_id);
     }
 
     // Format filter (check resources)
     if (format) {
-      conditions.push('EXISTS (SELECT 1 FROM resources r WHERE r.dataset_id = d.id AND r.mime_type LIKE ?)');
+      conditions.push(
+        "EXISTS (SELECT 1 FROM resources r WHERE r.dataset_id = d.id AND r.mime_type LIKE ?)",
+      );
       params.push(`%${format}%`);
     }
 
-    const whereClause = conditions.join(' AND ');
+    const whereClause = conditions.join(" AND ");
 
     // Count query
     const countSql = `
@@ -135,27 +159,27 @@ app.openapi(listDatasetsRoute, async (c: any) => {
       pagination: calculatePagination(total, limit, offset),
     });
   } catch (error) {
-    console.error('Error listing datasets:', error);
+    console.error("Error listing datasets:", error);
     return c.json(
       {
         success: false,
         error: {
-          code: 'INTERNAL_ERROR',
-          message: 'Failed to retrieve datasets',
+          code: "INTERNAL_ERROR",
+          message: "Failed to retrieve datasets",
         },
       },
-      500
+      500,
     );
   }
 });
 
 // Get dataset details route
 const getDatasetRoute = createRoute({
-  method: 'get',
-  path: '/:id',
-  tags: ['Datasets'],
-  summary: 'Get dataset details',
-  description: 'Get full details of a specific dataset',
+  method: "get",
+  path: "/:id",
+  tags: ["Datasets"],
+  summary: "Get dataset details",
+  description: "Get full details of a specific dataset",
   request: {
     params: z.object({
       id: z.coerce.number().int().positive(),
@@ -163,17 +187,17 @@ const getDatasetRoute = createRoute({
   },
   responses: {
     200: {
-      description: 'Successful response',
+      description: "Successful response",
       content: {
-        'application/json': {
+        "application/json": {
           schema: createApiResponseSchema(DatasetDetailSchema),
         },
       },
     },
     404: {
-      description: 'Dataset not found',
+      description: "Dataset not found",
       content: {
-        'application/json': {
+        "application/json": {
           schema: ErrorResponseSchema,
         },
       },
@@ -182,7 +206,7 @@ const getDatasetRoute = createRoute({
 });
 
 app.openapi(getDatasetRoute, async (c: any) => {
-  const { id } = c.req.valid('param');
+  const { id } = c.req.valid("param");
 
   try {
     // Get dataset with publisher and category
@@ -208,16 +232,16 @@ app.openapi(getDatasetRoute, async (c: any) => {
         {
           success: false,
           error: {
-            code: 'NOT_FOUND',
-            message: 'Dataset not found',
+            code: "NOT_FOUND",
+            message: "Dataset not found",
           },
         },
-        404
+        404,
       );
     }
 
     // Transform result
-    const result: Omit<DatasetDetail, 'resources'> = {
+    const result: Omit<DatasetDetail, "resources"> = {
       id: dataset.id,
       name: dataset.name,
       description: dataset.description,
@@ -243,16 +267,16 @@ app.openapi(getDatasetRoute, async (c: any) => {
       data: result,
     });
   } catch (error) {
-    console.error('Error getting dataset:', error);
+    console.error("Error getting dataset:", error);
     return c.json(
       {
         success: false,
         error: {
-          code: 'INTERNAL_ERROR',
-          message: 'Failed to retrieve dataset',
+          code: "INTERNAL_ERROR",
+          message: "Failed to retrieve dataset",
         },
       },
-      500
+      500,
     );
   }
 });

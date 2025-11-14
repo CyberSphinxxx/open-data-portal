@@ -1,11 +1,11 @@
-import { Hono } from 'hono';
-import { Layout } from '../components/Layout';
-import { html } from 'hono/html';
+import { Hono } from "hono";
+import { html } from "hono/html";
+import { Layout } from "../components/Layout";
 
 const app = new Hono();
 
-app.get('/:id', async (c) => {
-  const id = c.req.param('id');
+app.get("/:id", async (c) => {
+  const id = c.req.param("id");
 
   const content = html`
     <div class="container-custom pt-4 pb-8">
@@ -565,15 +565,17 @@ app.get('/:id', async (c) => {
     </script>
   `;
 
-  return c.html(Layout({
-    title: 'Dataset Details - Open Data Portal',
-    children: content,
-    breadcrumbs: [
-      { label: 'Home', href: '/' },
-      { label: 'Datasets', href: '/datasets' },
-      { label: 'Dataset Details' },
-    ],
-  }));
+  return c.html(
+    Layout({
+      title: "Dataset Details - Open Data Portal",
+      children: content,
+      breadcrumbs: [
+        { label: "Home", href: "/" },
+        { label: "Datasets", href: "/datasets" },
+        { label: "Dataset Details" },
+      ],
+    }),
+  );
 });
 
 export default app;

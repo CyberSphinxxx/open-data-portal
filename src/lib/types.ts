@@ -62,17 +62,6 @@ export interface PaginationInfo {
   total_pages: number;
 }
 
-export interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  pagination?: PaginationInfo;
-  error?: {
-    code: string;
-    message: string;
-    details?: any;
-  };
-}
-
 export interface Stats {
   total_datasets: number;
   total_resources: number;

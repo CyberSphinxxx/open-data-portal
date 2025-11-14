@@ -1,4 +1,4 @@
-import { html } from 'hono/html';
+import { html } from "hono/html";
 
 export interface EmptyStateProps {
   icon?: string; // Lucide icon name
@@ -14,7 +14,7 @@ export interface EmptyStateProps {
  * Server-side JSX component for rendering empty states
  */
 export function EmptyState({
-  icon = 'inbox',
+  icon = "inbox",
   heading,
   message,
   actionLabel,
@@ -31,7 +31,9 @@ export function EmptyState({
       </div>
       <h3 class="text-2xl font-semibold text-neutral-900 mb-3">${heading}</h3>
       <p class="text-neutral-600 mb-6 max-w-md mx-auto">${message}</p>
-      ${actionLabel && actionHref ? html`
+      ${
+        actionLabel && actionHref
+          ? html`
         <div class="flex justify-center gap-4">
           <a
             href="${actionHref}"
@@ -39,16 +41,22 @@ export function EmptyState({
           >
             ${actionLabel}
           </a>
-          ${secondaryActionLabel && secondaryActionHref ? html`
+          ${
+            secondaryActionLabel && secondaryActionHref
+              ? html`
             <a
               href="${secondaryActionHref}"
               class="inline-flex items-center px-6 py-3 bg-white text-primary-600 font-semibold rounded-lg border-2 border-primary-600 hover:bg-primary-50 transition-colors"
             >
               ${secondaryActionLabel}
             </a>
-          ` : ''}
+          `
+              : ""
+          }
         </div>
-      ` : ''}
+      `
+          : ""
+      }
     </div>
   `;
 }
@@ -57,16 +65,18 @@ export function EmptyState({
  * Client-side compatible function that returns HTML string
  * Used for dynamic rendering in browser JavaScript
  */
-EmptyState.toHTML = function({
-  icon = 'inbox',
+EmptyState.toHTML = ({
+  icon = "inbox",
   heading,
   message,
   actionLabel,
   actionHref,
   secondaryActionLabel,
   secondaryActionHref,
-}: EmptyStateProps): string {
-  const actionsHTML = actionLabel && actionHref ? `
+}: EmptyStateProps): string => {
+  const actionsHTML =
+    actionLabel && actionHref
+      ? `
     <div class="flex justify-center gap-4">
       <a
         href="${actionHref}"
@@ -74,16 +84,21 @@ EmptyState.toHTML = function({
       >
         ${actionLabel}
       </a>
-      ${secondaryActionLabel && secondaryActionHref ? `
+      ${
+        secondaryActionLabel && secondaryActionHref
+          ? `
         <a
           href="${secondaryActionHref}"
           class="inline-flex items-center px-6 py-3 bg-white text-primary-600 font-semibold rounded-lg border-2 border-primary-600 hover:bg-primary-50 transition-colors"
         >
           ${secondaryActionLabel}
         </a>
-      ` : ''}
+      `
+          : ""
+      }
     </div>
-  ` : '';
+  `
+      : "";
 
   return `
     <div class="text-center py-12">

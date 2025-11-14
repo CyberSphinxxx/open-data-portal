@@ -1,4 +1,5 @@
-import { html } from 'hono/html';
+/** biome-ignore-all lint/suspicious/noExplicitAny: usages of any is acceptable here */
+import { html } from "hono/html";
 
 interface LayoutProps {
   title?: string;
@@ -6,7 +7,11 @@ interface LayoutProps {
   breadcrumbs?: Array<{ label: string; href?: string }>;
 }
 
-export function Layout({ title = 'Open Data Portal', children, breadcrumbs }: LayoutProps) {
+export function Layout({
+  title = "Open Data Portal",
+  children,
+  breadcrumbs,
+}: LayoutProps) {
   return html`<!DOCTYPE html>
   <html lang="en">
   <head>
@@ -41,17 +46,19 @@ export function Layout({ title = 'Open Data Portal', children, breadcrumbs }: La
       </div>
   </header>
 
-  ${breadcrumbs && breadcrumbs.length > 0 ? html`
+  ${
+    breadcrumbs && breadcrumbs.length > 0
+      ? html`
       <!-- Breadcrumbs -->
       <div>
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-0">
               <nav class="flex items-center space-x-2 text-sm">
                   ${breadcrumbs.map((crumb, index) => {
-                      const isLast = index === breadcrumbs.length - 1;
-                      if (isLast) {
-                          return html`<span class="text-neutral-600 font-medium">${crumb.label}</span>`;
-                      }
-                      return html`
+                    const isLast = index === breadcrumbs.length - 1;
+                    if (isLast) {
+                      return html`<span class="text-neutral-600 font-medium">${crumb.label}</span>`;
+                    }
+                    return html`
                           <a href="${crumb.href}"
                              class="text-primary-600 hover:text-primary-700 font-medium transition-colors">${crumb.label}</a>
                           <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-400"></i>
@@ -60,7 +67,9 @@ export function Layout({ title = 'Open Data Portal', children, breadcrumbs }: La
               </nav>
           </div>
       </div>
-  ` : ''}
+  `
+      : ""
+  }
 
   <!-- Main Content -->
   <main class="flex-grow mb-12">

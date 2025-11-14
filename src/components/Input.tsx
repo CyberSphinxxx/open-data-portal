@@ -1,8 +1,8 @@
-import { html } from 'hono/html';
+import { html } from "hono/html";
 
 interface InputProps {
   name: string;
-  type?: 'text' | 'email' | 'password' | 'number' | 'search' | 'tel' | 'url';
+  type?: "text" | "email" | "password" | "number" | "search" | "tel" | "url";
   placeholder?: string;
   value?: string;
   label?: string;
@@ -13,34 +13,42 @@ interface InputProps {
 
 export function Input({
   name,
-  type = 'text',
+  type = "text",
   placeholder,
   value,
   label,
   error,
   required = false,
-  className = '',
+  className = "",
 }: InputProps) {
   return html`
     <div class="mb-4 ${className}">
-      ${label ? html`
+      ${
+        label
+          ? html`
         <label for="${name}" class="block text-sm font-medium text-neutral-700 mb-2">
           ${label}
-          ${required ? html`<span class="text-accent-600">*</span>` : ''}
+          ${required ? html`<span class="text-accent-600">*</span>` : ""}
         </label>
-      ` : ''}
+      `
+          : ""
+      }
       <input
         type="${type}"
         id="${name}"
         name="${name}"
-        placeholder="${placeholder || ''}"
-        value="${value || ''}"
-        ${required ? 'required' : ''}
-        class="input ${error ? 'input-error' : ''}"
+        placeholder="${placeholder || ""}"
+        value="${value || ""}"
+        ${required ? "required" : ""}
+        class="input ${error ? "input-error" : ""}"
       />
-      ${error ? html`
+      ${
+        error
+          ? html`
         <p class="mt-1 text-sm text-accent-600">${error}</p>
-      ` : ''}
+      `
+          : ""
+      }
     </div>
   `;
 }
@@ -64,27 +72,35 @@ export function Textarea({
   error,
   required = false,
   rows = 4,
-  className = '',
+  className = "",
 }: TextareaProps) {
   return html`
     <div class="mb-4 ${className}">
-      ${label ? html`
+      ${
+        label
+          ? html`
         <label for="${name}" class="block text-sm font-medium text-neutral-700 mb-2">
           ${label}
-          ${required ? html`<span class="text-accent-600">*</span>` : ''}
+          ${required ? html`<span class="text-accent-600">*</span>` : ""}
         </label>
-      ` : ''}
+      `
+          : ""
+      }
       <textarea
         id="${name}"
         name="${name}"
-        placeholder="${placeholder || ''}"
-        ${required ? 'required' : ''}
+        placeholder="${placeholder || ""}"
+        ${required ? "required" : ""}
         rows="${rows}"
-        class="input ${error ? 'input-error' : ''}"
-      >${value || ''}</textarea>
-      ${error ? html`
+        class="input ${error ? "input-error" : ""}"
+      >${value || ""}</textarea>
+      ${
+        error
+          ? html`
         <p class="mt-1 text-sm text-accent-600">${error}</p>
-      ` : ''}
+      `
+          : ""
+      }
     </div>
   `;
 }
@@ -108,32 +124,42 @@ export function Select({
   error,
   required = false,
   placeholder,
-  className = '',
+  className = "",
 }: SelectProps) {
   return html`
     <div class="mb-4 ${className}">
-      ${label ? html`
+      ${
+        label
+          ? html`
         <label for="${name}" class="block text-sm font-medium text-neutral-700 mb-2">
           ${label}
-          ${required ? html`<span class="text-accent-600">*</span>` : ''}
+          ${required ? html`<span class="text-accent-600">*</span>` : ""}
         </label>
-      ` : ''}
+      `
+          : ""
+      }
       <select
         id="${name}"
         name="${name}"
-        ${required ? 'required' : ''}
-        class="input ${error ? 'input-error' : ''}"
+        ${required ? "required" : ""}
+        class="input ${error ? "input-error" : ""}"
       >
-        ${placeholder ? html`<option value="">${placeholder}</option>` : ''}
-        ${options.map(option => html`
-          <option value="${option.value}" ${value === option.value ? 'selected' : ''}>
+        ${placeholder ? html`<option value="">${placeholder}</option>` : ""}
+        ${options.map(
+          (option) => html`
+          <option value="${option.value}" ${value === option.value ? "selected" : ""}>
             ${option.label}
           </option>
-        `)}
+        `,
+        )}
       </select>
-      ${error ? html`
+      ${
+        error
+          ? html`
         <p class="mt-1 text-sm text-accent-600">${error}</p>
-      ` : ''}
+      `
+          : ""
+      }
     </div>
   `;
 }

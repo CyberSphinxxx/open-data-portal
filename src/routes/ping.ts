@@ -1,18 +1,18 @@
-import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
+import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 
 const app = new OpenAPIHono();
 
 const pingRoute = createRoute({
-  method: 'get',
-  path: '/',
-  tags: ['Health'],
-  summary: 'Health check',
-  description: 'Check if the API is running',
+  method: "get",
+  path: "/",
+  tags: ["Health"],
+  summary: "Health check",
+  description: "Check if the API is running",
   responses: {
     200: {
-      description: 'API is healthy',
+      description: "API is healthy",
       content: {
-        'application/json': {
+        "application/json": {
           schema: z.object({
             success: z.boolean(),
             data: z.object({
@@ -30,7 +30,7 @@ app.openapi(pingRoute, async (c) => {
   return c.json({
     success: true,
     data: {
-      status: 'ok',
+      status: "ok",
       timestamp: new Date().toISOString(),
     },
   });

@@ -1,11 +1,11 @@
-import { Hono } from 'hono';
-import { Layout } from '../components/Layout';
-import { LoadingSkeleton } from '../components/LoadingSkeleton';
-import { html } from 'hono/html';
+import { Hono } from "hono";
+import { html } from "hono/html";
+import { Layout } from "../components/Layout";
+import { LoadingSkeleton } from "../components/LoadingSkeleton";
 
 const app = new Hono();
 
-app.get('/', async (c) => {
+app.get("/", async (c) => {
   const content = html`
     <!-- Hero Section -->
     <div class="bg-primary-700">
@@ -44,7 +44,7 @@ app.get('/', async (c) => {
         <h2 class="text-3xl font-bold text-neutral-900 text-center mb-8">Statistics</h2>
         <div id="stats-container" class="flex flex-wrap justify-center gap-6">
           <!-- Stats will be loaded here -->
-          ${LoadingSkeleton({ variant: 'stat-card', count: 4 })}
+          ${LoadingSkeleton({ variant: "stat-card", count: 4 })}
         </div>
       </div>
     </div>
@@ -58,7 +58,7 @@ app.get('/', async (c) => {
         </div>
         <div id="recent-datasets-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <!-- Recent datasets will be loaded here -->
-          ${LoadingSkeleton({ variant: 'dataset-card', count: 6 })}
+          ${LoadingSkeleton({ variant: "dataset-card", count: 6 })}
         </div>
         <div class="text-center mt-8">
           <a href="/datasets" class="inline-flex items-center px-6 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors shadow-lg hover:shadow-xl">
@@ -242,7 +242,13 @@ app.get('/', async (c) => {
     </script>
   `;
 
-  return c.html(Layout({ title: 'Open Data Portal - A community-run portal for exploring public datasets', children: content }));
+  return c.html(
+    Layout({
+      title:
+        "Open Data Portal - A community-run portal for exploring public datasets",
+      children: content,
+    }),
+  );
 });
 
 export default app;

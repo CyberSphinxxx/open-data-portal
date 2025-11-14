@@ -1,13 +1,12 @@
-import { Hono } from 'hono';
-import { Layout } from '../components/Layout';
-import { EmptyState } from '../components/EmptyState';
-import { html } from 'hono/html';
+import { Hono } from "hono";
+import { html } from "hono/html";
+import { Layout } from "../components/Layout";
 
 const app = new Hono();
 
-app.get('/:resourceId', async (c) => {
-  const datasetId = c.req.param('datasetId');
-  const resourceId = c.req.param('resourceId');
+app.get("/:resourceId", async (c) => {
+  const datasetId = c.req.param("datasetId");
+  const resourceId = c.req.param("resourceId");
 
   const content = html`
     <div class="container-custom pt-4 pb-8">
@@ -138,16 +137,18 @@ app.get('/:resourceId', async (c) => {
     </script>
   `;
 
-  return c.html(Layout({
-    title: 'Resource Details - Open Data Portal',
-    children: content,
-    breadcrumbs: [
-      { label: 'Home', href: '/' },
-      { label: 'Datasets', href: '/datasets' },
-      { label: 'Dataset', href: `/datasets/${datasetId}` },
-      { label: 'Resource Details' },
-    ],
-  }));
+  return c.html(
+    Layout({
+      title: "Resource Details - Open Data Portal",
+      children: content,
+      breadcrumbs: [
+        { label: "Home", href: "/" },
+        { label: "Datasets", href: "/datasets" },
+        { label: "Dataset", href: `/datasets/${datasetId}` },
+        { label: "Resource Details" },
+      ],
+    }),
+  );
 });
 
 export default app;

@@ -1,21 +1,22 @@
-import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
-import { queryOne } from '../lib/db';
-import { StatsSchema, ErrorSchema } from '../lib/schemas';
-import type { Stats } from '../lib/types';
+/** biome-ignore-all lint/suspicious/noExplicitAny: any is acceptable in Hono routes */
+import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
+import { queryOne } from "../lib/db";
+import { ErrorSchema, StatsSchema } from "../lib/schemas";
+import type { Stats } from "../lib/types";
 
 const app = new OpenAPIHono();
 
 const getStatsRoute = createRoute({
-  method: 'get',
-  path: '/',
-  tags: ['Statistics'],
-  summary: 'Get platform statistics',
-  description: 'Retrieve platform-wide statistics including counts and totals',
+  method: "get",
+  path: "/",
+  tags: ["Statistics"],
+  summary: "Get platform statistics",
+  description: "Retrieve platform-wide statistics including counts and totals",
   responses: {
     200: {
-      description: 'Successful response',
+      description: "Successful response",
       content: {
-        'application/json': {
+        "application/json": {
           schema: z.object({
             success: z.boolean(),
             data: StatsSchema.optional(),
@@ -45,16 +46,16 @@ app.openapi(getStatsRoute, async (c: any) => {
       data: stats,
     });
   } catch (error) {
-    console.error('Error getting stats:', error);
+    console.error("Error getting stats:", error);
     return c.json(
       {
         success: false,
         error: {
-          code: 'INTERNAL_ERROR',
-          message: 'Failed to retrieve statistics',
+          code: "INTERNAL_ERROR",
+          message: "Failed to retrieve statistics",
         },
       },
-      500
+      500,
     );
   }
 });
