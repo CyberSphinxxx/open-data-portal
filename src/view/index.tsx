@@ -184,22 +184,22 @@ app.get('/', async (c) => {
             const container = document.getElementById('stats-container');
 
             container.innerHTML = \`
-              <div class="bg-primary-100 rounded-lg p-6 w-[180px] h-[160px] flex flex-col items-center justify-center text-center">
+              <div class="bg-primary-100 rounded-lg p-6 w-[200px] h-[180px] flex flex-col items-center justify-center text-center">
                 <i data-lucide="database" class="w-8 h-8 text-primary-700 mb-2"></i>
                 <p class="text-3xl font-bold text-primary-700">\${formatNumber(stats.total_datasets || 0)}</p>
                 <p class="text-sm text-neutral-600 mt-2">Datasets</p>
               </div>
-              <div class="bg-green-100 rounded-lg p-6 w-[180px] h-[160px] flex flex-col items-center justify-center text-center">
+              <div class="bg-green-100 rounded-lg p-6 w-[200px] h-[180px] flex flex-col items-center justify-center text-center">
                 <i data-lucide="file-text" class="w-8 h-8 text-green-700 mb-2"></i>
                 <p class="text-3xl font-bold text-green-700">\${formatNumber(stats.total_resources || 0)}</p>
                 <p class="text-sm text-neutral-600 mt-2">Resources</p>
               </div>
-              <div class="bg-accent-200 rounded-lg p-6 w-[180px] h-[160px] flex flex-col items-center justify-center text-center">
+              <div class="bg-accent-200 rounded-lg p-6 w-[200px] h-[180px] flex flex-col items-center justify-center text-center">
                 <i data-lucide="building-2" class="w-8 h-8 text-accent-700 mb-2"></i>
                 <p class="text-3xl font-bold text-accent-700">\${formatNumber(stats.total_publishers || 0)}</p>
                 <p class="text-sm text-accent-600 mt-2">Publishers</p>
               </div>
-              <div class="bg-neutral-200 rounded-lg p-6 w-[180px] h-[160px] flex flex-col items-center justify-center text-center">
+              <div class="bg-neutral-200 rounded-lg p-6 w-[200px] h-[180px] flex flex-col items-center justify-center text-center">
                 <i data-lucide="hard-drive" class="w-8 h-8 text-neutral-700 mb-2"></i>
                 <p class="text-3xl font-bold text-neutral-700">\${formatFileSize(stats.total_size_bytes || 0)}</p>
                 <p class="text-sm text-neutral-600 mt-2">Total Size</p>

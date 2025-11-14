@@ -100,7 +100,7 @@ export function Layout({ title = 'Open Data Portal', children, breadcrumbs }: La
                   </div>
               </div>
               <div></div>
-              <div class="text-right">
+              <div>
                   <h4 class="text-white font-bold mb-4">About</h4>
                   <ul class="space-y-2.5 text-sm">
                       <li><a href="https://github.com/bettergovph/open-data-portal" target="_blank"
