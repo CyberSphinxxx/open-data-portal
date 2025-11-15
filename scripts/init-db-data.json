@@ -231,6 +231,7 @@
           "name": "Open PhilGEPS Data",
           "description": "Optimized Parquet files for high-performance analytics and search operations in the PhilGEPS Dashboard with the following aggregations and analytics: Geographic Areas, Business Categories, Contractors/Suppliers, Government Organizations along with complete contract and a search-optimized variant.",
           "download_url": "https://download-directory.github.io/?url=https%3A%2F%2Fgithub.com%2Fcsiiiv%2Fphilgeps-awards-dashboard%2Ftree%2F3babd28e92cbb465285af9c71b285921990e9796%2Fbackend%2Fdjango%2Fstatic_data&filename=open_philgeps",
+          "source_url": "https://github.com/csiiiv/philgeps-awards-dashboard/tree/3babd28e92cbb465285af9c71b285921990e9796/backend/django/static_data",
           "size": 2040109465,
           "mime_type": "application/zip"
         }

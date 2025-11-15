@@ -13,6 +13,10 @@ import statsRoutes from "./routes/stats";
 
 // Import view routes
 import viewIndexRoute from "./view";
+import { notFoundRouter } from "./view/404";
+import viewAboutRoute from "./view/about";
+import viewCategoriesRoute from "./view/categories";
+import viewContributeRoute from "./view/contribute";
 import viewDatasetDetailRoute from "./view/dataset-detail";
 import viewDatasetsRoute from "./view/datasets";
 import viewResourceDetailRoute from "./view/resource-detail";
@@ -33,6 +37,9 @@ app.use("/*", async (c, next) => {
 app.route("/datasets/:datasetId/resources", viewResourceDetailRoute);
 app.route("/datasets", viewDatasetDetailRoute);
 app.route("/datasets", viewDatasetsRoute);
+app.route("/categories", viewCategoriesRoute);
+app.route("/about", viewAboutRoute);
+app.route("/contribute", viewContributeRoute);
 app.route("/", viewIndexRoute);
 
 // API routes
@@ -86,16 +93,26 @@ app.get("/reference", (c) => {
 
 // 404 handler
 app.notFound((c) => {
-  return c.json(
-    {
-      success: false,
-      error: {
-        code: "NOT_FOUND",
-        message: "Endpoint not found",
+  // Check if the request is for an API endpoint
+  const isApiRequest = c.req.url.includes("/api/");
+  const acceptsHtml = c.req.header("accept")?.includes("text/html");
+
+  // Return JSON for API requests, HTML for others
+  if (isApiRequest || !acceptsHtml) {
+    return c.json(
+      {
+        success: false,
+        error: {
+          code: "NOT_FOUND",
+          message: "Endpoint not found",
+        },
       },
-    },
-    404,
-  );
+      404,
+    );
+  }
+
+  // Use the custom 404 view for HTML requests
+  return notFoundRouter.fetch(c.req.raw, c.env);
 });
 
 // Error handler
