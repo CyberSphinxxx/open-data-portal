@@ -107,13 +107,6 @@ app.get("/", async (c) => {
             </div>
         </div>
     </div>
-
-    <script>
-        // Initialize Lucide icons after page load
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-    </script>
   `;
 
   return c.html(
